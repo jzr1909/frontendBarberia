@@ -1,0 +1,855 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>BarberIA | Gestión de Barberos</title>
+
+    <!-- Bootstrap para los mensajes -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+          rel="stylesheet">
+
+    <style>
+        :root {
+            --bg: #f6f7f9;
+            --surface: #ffffff;
+            --border: #e5e7eb;
+            --text-main: #111827;
+            --text-muted: #6b7280;
+            --accent: #18181b;
+            --accent-hover: #27272a;
+            --success: #059669;
+            --danger: #dc2626;
+            --radius: 14px;
+            --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.04);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI",
+                         Roboto, Inter, sans-serif;
+            background-color: var(--bg);
+            color: var(--text-main);
+            display: flex;
+            min-height: 100vh;
+            line-height: 1.5;
+        }
+
+        /* BARRA LATERAL */
+
+        .sidebar {
+            width: 260px;
+            background-color: var(--surface);
+            border-right: 1px solid var(--border);
+            padding: 28px 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            position: sticky;
+            top: 0;
+            height: 100vh;
+            flex-shrink: 0;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 0 10px 24px;
+            border-bottom: 1px solid var(--border);
+            margin-bottom: 24px;
+        }
+
+        .brand-icon {
+            width: 38px;
+            height: 38px;
+            background-color: var(--accent);
+            color: white;
+            border-radius: 10px;
+            display: grid;
+            place-items: center;
+            font-weight: 700;
+            font-size: 1.1rem;
+        }
+
+        .brand-text h1 {
+            font-size: 1.05rem;
+            font-weight: 700;
+        }
+
+        .brand-text span {
+            font-size: 0.78rem;
+            color: var(--text-muted);
+            display: block;
+        }
+
+        .nav-label {
+            font-size: 0.72rem;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: var(--text-muted);
+            font-weight: 600;
+            padding: 0 12px;
+            margin-bottom: 10px;
+        }
+
+        .nav-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .nav-link {
+            display: flex;
+            align-items: center;
+            padding: 11px 14px;
+            border-radius: 10px;
+            text-decoration: none;
+            color: var(--text-muted);
+            font-size: 0.92rem;
+            font-weight: 500;
+            transition: all 0.18s ease;
+        }
+
+        .nav-link:hover {
+            background-color: var(--bg);
+            color: var(--text-main);
+        }
+
+        .nav-link.active {
+            background-color: var(--accent);
+            color: white;
+        }
+
+        .sidebar-footer {
+            padding-top: 18px;
+            border-top: 1px solid var(--border);
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            padding-left: 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            background-color: var(--success);
+            border-radius: 50%;
+        }
+
+        /* CONTENIDO PRINCIPAL */
+
+        .main-content {
+            flex: 1;
+            padding: 40px 48px;
+            max-width: 1280px;
+            margin: 0 auto;
+            width: 100%;
+            min-width: 0;
+        }
+
+        .topbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            margin-bottom: 36px;
+            flex-wrap: wrap;
+            gap: 16px;
+        }
+
+        .topbar h2 {
+            font-size: 1.75rem;
+            font-weight: 700;
+            letter-spacing: -0.03em;
+        }
+
+        .topbar p {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            margin-top: 4px;
+        }
+
+        /* BOTONES */
+
+        .btn-outline,
+        .btn-primary,
+        .btn-secondary,
+        .btn-success,
+        .btn-danger,
+        .btn-ghost {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 10px 16px;
+            border-radius: 10px;
+            font-size: 0.88rem;
+            font-weight: 600;
+            text-decoration: none;
+            cursor: pointer;
+            border: 1px solid transparent;
+            transition: all 0.18s ease;
+        }
+
+        .btn-outline {
+            background-color: white;
+            color: var(--text-main);
+            border-color: var(--border);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .btn-outline:hover {
+            background-color: var(--bg);
+        }
+
+        .btn-primary {
+            background-color: var(--accent);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background-color: var(--accent-hover);
+            color: white;
+        }
+
+        .btn-secondary {
+            background-color: var(--bg);
+            color: var(--text-main);
+            border-color: var(--border);
+        }
+
+        .btn-secondary:hover {
+            background-color: #eceef2;
+        }
+
+        .btn-success {
+            background-color: var(--success);
+            color: white;
+        }
+
+        .btn-success:hover {
+            background-color: #047857;
+            color: white;
+        }
+
+        .btn-danger {
+            background-color: var(--danger);
+            color: white;
+        }
+
+        .btn-danger:hover {
+            background-color: #b91c1c;
+            color: white;
+        }
+
+        .btn-ghost {
+            background-color: transparent;
+            color: var(--text-muted);
+        }
+
+        .btn-ghost:hover {
+            color: var(--text-main);
+            background-color: var(--bg);
+        }
+
+        /* TARJETAS */
+
+        .panel-card {
+            background-color: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 28px;
+            box-shadow: var(--shadow-sm);
+            margin-bottom: 24px;
+        }
+
+        .panel-header {
+            margin-bottom: 24px;
+            padding-bottom: 16px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .panel-header h3 {
+            font-size: 1.15rem;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+        }
+
+        .panel-header p {
+            font-size: 0.88rem;
+            color: var(--text-muted);
+            margin-top: 4px;
+        }
+
+        /* BUSCAR POR ID */
+
+        .search-row {
+            display: grid;
+            grid-template-columns: 1fr auto;
+            gap: 14px;
+            align-items: end;
+            padding: 16px;
+            background-color: var(--bg);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            margin-bottom: 22px;
+        }
+
+        .search-action {
+            display: flex;
+        }
+
+        /* FORMULARIO */
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 18px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .form-group label {
+            font-size: 0.82rem;
+            font-weight: 600;
+            color: var(--text-main);
+        }
+
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 10px 13px;
+            border-radius: 10px;
+            border: 1px solid var(--border);
+            background-color: var(--surface);
+            color: var(--text-main);
+            font-size: 0.92rem;
+            transition: border-color 0.18s ease,
+                        box-shadow 0.18s ease;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px rgba(24, 24, 27, 0.08);
+        }
+
+        /* MENSAJES */
+
+        #mensaje {
+            margin-top: 18px;
+        }
+
+        #mensaje .alert {
+            border-radius: 10px;
+            margin-bottom: 0;
+        }
+
+        /* BARRA DE ACCIONES */
+
+        .actions-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-top: 24px;
+            padding-top: 20px;
+            border-top: 1px solid var(--border);
+        }
+
+        .actions-left,
+        .actions-right {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        /* TABLA */
+
+        .table-section {
+            margin-top: 24px;
+        }
+
+        .table-responsive {
+            overflow-x: auto;
+        }
+
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.9rem;
+        }
+
+        .data-table th {
+            text-align: left;
+            font-size: 0.76rem;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            color: var(--text-muted);
+            font-weight: 600;
+            padding: 12px 14px;
+            border-bottom: 1px solid var(--border);
+            background-color: var(--bg);
+            white-space: nowrap;
+        }
+
+        .data-table td {
+            padding: 13px 14px;
+            border-bottom: 1px solid var(--border);
+            color: var(--text-main);
+            font-size: 0.88rem;
+        }
+
+        .data-table tbody tr:hover {
+            background-color: var(--bg);
+        }
+
+        .empty-cell {
+            text-align: center;
+            color: var(--text-muted);
+            padding: 24px !important;
+        }
+
+        /* PIE DE PÁGINA */
+
+        .footer {
+            text-align: center;
+            color: var(--text-muted);
+            padding: 20px 10px;
+            font-size: 0.82rem;
+        }
+
+        /* RESPONSIVE */
+
+        @media (max-width: 860px) {
+            body {
+                flex-direction: column;
+            }
+
+            .sidebar {
+                width: 100%;
+                height: auto;
+                position: static;
+                padding: 18px 20px;
+            }
+
+            .nav-list {
+                flex-direction: row;
+                flex-wrap: wrap;
+            }
+
+            .sidebar-footer {
+                display: none;
+            }
+
+            .main-content {
+                padding: 28px 20px;
+            }
+
+            .form-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 560px) {
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .search-row {
+                grid-template-columns: 1fr;
+            }
+
+            .search-action button {
+                width: 100%;
+            }
+
+            .panel-card {
+                padding: 20px;
+            }
+
+            .actions-bar,
+            .actions-left,
+            .actions-right {
+                width: 100%;
+            }
+
+            .actions-left button,
+            .actions-right button {
+                flex: 1;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- BARRA LATERAL -->
+
+    <aside class="sidebar">
+
+        <div>
+
+            <div class="brand">
+                <div class="brand-icon">BP</div>
+
+                <div class="brand-text">
+                    <h1>BarberIA</h1>
+                    <span>Sistema de Gestión</span>
+                </div>
+            </div>
+
+            <p class="nav-label">Módulos</p>
+
+            <ul class="nav-list">
+                <li>
+                    <a href="/index.html" class="nav-link">
+                        Panel Principal
+                    </a>
+                </li>
+
+                <li>
+                    <a href="#" class="nav-link">
+                        Inicio
+                    </a>
+                </li>
+
+                <li>
+                    <a href="#" class="nav-link">
+                        Inventario
+                    </a>
+                </li>
+
+                <li>
+                    <a href="index.html" class="nav-link active">
+                        Gestión de Barberos
+                    </a>
+                </li>
+
+                <li>
+                    <a href="#" class="nav-link">
+                        Agenda y Reservas
+                    </a>
+                </li>
+
+                <li>
+                    <a href="#" class="nav-link">
+                        Gestión de Servicios
+                    </a>
+                </li>
+
+                <li>
+                    <a href="#" class="nav-link">
+                        Ventas
+                    </a>
+                </li>
+            </ul>
+
+        </div>
+
+        <div class="sidebar-footer">
+            <span class="status-dot"></span>
+            <span>Endpoint: /api/barberos</span>
+        </div>
+
+    </aside>
+
+
+    <!-- CONTENIDO PRINCIPAL -->
+
+    <main class="main-content">
+
+        <header class="topbar">
+
+            <div>
+                <h2>Registro de Barberos</h2>
+
+                <p>
+                    Registra, consulta, actualiza y administra
+                    los barberos de tu negocio.
+                </p>
+            </div>
+
+            <a href="/index.html" class="btn-outline">
+                ← Volver al Panel
+            </a>
+
+        </header>
+
+
+        <!-- FORMULARIO CRUD -->
+
+        <section class="panel-card">
+
+            <div class="panel-header">
+                <h3>Gestión de Barberos</h3>
+
+                <p>
+                    Completa los campos para registrar o actualizar
+                    un barbero, o ingresa su ID para buscarlo o eliminarlo.
+                </p>
+            </div>
+
+
+            <form id="formBarberos" onsubmit="return false;">
+
+                <!-- BÚSQUEDA POR ID -->
+
+                <div class="search-row">
+
+                    <div class="form-group">
+
+                        <label for="id">ID del Barbero</label>
+
+                        <input
+                            type="number"
+                            id="id"
+                            min="1"
+                            placeholder="Ingrese el ID del barbero"
+                        >
+
+                    </div>
+
+                    <div class="search-action">
+
+                        <button
+                            type="button"
+                            class="btn-secondary"
+                            onclick="buscarBarbero()"
+                        >
+                            Buscar por ID
+                        </button>
+
+                    </div>
+
+                </div>
+
+
+                <!-- CAMPOS DEL BARBERO -->
+
+                <div class="form-grid">
+
+                    <div class="form-group">
+
+                        <label for="nombre">Nombre</label>
+
+                        <input
+                            type="text"
+                            id="nombre"
+                            placeholder="Ingrese el nombre"
+                        >
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label for="apellido">Apellido</label>
+
+                        <input
+                            type="text"
+                            id="apellido"
+                            placeholder="Ingrese el apellido"
+                        >
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label for="documento">Documento</label>
+
+                        <input
+                            type="text"
+                            id="documento"
+                            placeholder="Ingrese el documento"
+                        >
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label for="telefono">Teléfono</label>
+
+                        <input
+                            type="text"
+                            id="telefono"
+                            placeholder="Ingrese el teléfono"
+                        >
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label for="correo">Correo electrónico</label>
+
+                        <input
+                            type="email"
+                            id="correo"
+                            placeholder="Ingrese el correo electrónico"
+                        >
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label for="estado">Estado</label>
+
+                        <select id="estado">
+
+                            <option value="">Seleccione un estado</option>
+                            <option value="ACTIVO">Activo</option>
+                            <option value="INACTIVO">Inactivo</option>
+
+                        </select>
+
+                    </div>
+
+                </div>
+
+
+                <!-- MENSAJES -->
+
+                <div id="mensaje" role="status" aria-live="polite"></div>
+
+
+                <!-- BOTONES CRUD -->
+
+                <div class="actions-bar">
+
+                    <div class="actions-left">
+
+                        <button
+                            type="button"
+                            class="btn-primary"
+                            onclick="registrarBarbero()"
+                        >
+                            Registrar
+                        </button>
+
+                        <button
+                            type="button"
+                            class="btn-success"
+                            onclick="actualizarBarbero()"
+                        >
+                            Actualizar
+                        </button>
+
+                        <button
+                            type="button"
+                            class="btn-danger"
+                            onclick="eliminarBarbero()"
+                        >
+                            Eliminar
+                        </button>
+
+                    </div>
+
+
+                    <div class="actions-right">
+
+                        <button
+                            type="button"
+                            class="btn-secondary"
+                            onclick="listarBarberos()"
+                        >
+                            Lista Completa
+                        </button>
+
+                        <button
+                            type="button"
+                            class="btn-ghost"
+                            onclick="limpiarFormulario()"
+                        >
+                            Limpiar
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </form>
+
+        </section>
+
+
+        <!-- TABLA DE BARBEROS -->
+
+        <section class="panel-card table-section">
+
+            <div class="panel-header">
+
+                <h3>Barberos Registrados</h3>
+
+                <p>
+                    Listado de los barberos almacenados en el sistema.
+                </p>
+
+            </div>
+
+            <div class="table-responsive">
+
+                <table class="data-table">
+
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Nombre</th>
+                            <th>Apellido</th>
+                            <th>Documento</th>
+                            <th>Teléfono</th>
+                            <th>Correo</th>
+                            <th>Estado</th>
+                        </tr>
+                    </thead>
+
+                    <tbody id="tablaBarberos">
+                        <tr>
+                            <td colspan="7" class="empty-cell">
+                                Utiliza el botón Lista Completa
+                                para consultar los barberos.
+                            </td>
+                        </tr>
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </section>
+
+
+        <!-- PIE DE PÁGINA -->
+
+        <footer class="footer">
+            BarberIA | Sistema de Gestión de Barberos
+        </footer>
+
+    </main>
+
+
+    <!-- JAVASCRIPT DEL MÓDULO -->
+
+    <script src="cliente.js"></script>
+
+</body>
+</html>
