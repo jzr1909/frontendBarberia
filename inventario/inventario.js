@@ -1,19 +1,11 @@
-async function nombreFuncion() {
 
-    try {
+ 
 
-        //Llamar
-        const respuesta = await fetch('https://api.example.com/datos');
+        
 
-        const datos = await respuesta.json();
-        console.log(datos);
+    
 
-    } catch (error) {
 
-        console.error('Ocurrio un error', error);
-    }
-
-}
 
 async function obtenerProducto() {
     console.log("Iniciando consulta de Producto...");
@@ -223,7 +215,7 @@ async function eliminarProducto() {
 }
 
 
-function limpiarFormulario() {
+async function limpiarFormulario() {
     document.getElementById("id").value = "";
     document.getElementById("nombre").value = "";
     document.getElementById("descripcion").value = "";
