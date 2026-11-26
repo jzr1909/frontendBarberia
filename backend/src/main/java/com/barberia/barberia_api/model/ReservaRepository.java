@@ -1,7 +1,5 @@
-package com.barberia.repository;
+package com.barberia.barberia_api.model;
 
-import com.barberia.model.EstadoReserva;
-import com.barberia.model.Reserva;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;

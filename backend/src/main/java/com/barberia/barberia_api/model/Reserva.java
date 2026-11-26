@@ -1,5 +1,6 @@
-package com.barberia.model;
+package com.barberia.barberia_api.model;
 
+import com.barberia.barberia_api.model.EstadoReserva;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
