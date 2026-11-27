@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BarberIA — Gestión de Servicios</title>
+
+  <!-- Rutas corregidas -->
+  <link rel="stylesheet" href="../styles.css">
+  <link rel="stylesheet" href="servicios.css">
+</head>
+
+<body>
+
+  <!-- Barra lateral -->
+  <aside class="sidebar">
+    <div>
+      <div class="brand">
+        <div class="brand-icon">BP</div>
+        <div class="brand-text">
+          <h1>BarberIA</h1>
+          <span>Sistema de Gestión</span>
+        </div>
+      </div>
+
+      <p class="nav-label">Módulos</p>
+
+      <ul class="nav-list">
+        <li><a href="../index.html" class="nav-link">Panel Principal</a></li>
+        <li><a href="../inicio.html" class="nav-link">Inicio</a></li>
+        <li><a href="../inventario/inventario.html" class="nav-link">Inventario</a></li>
+        <li><a href="../barberos.html" class="nav-link">Gestión de Barberos</a></li>
+        <li><a href="../agenda.html" class="nav-link">Agenda y Reservas</a></li>
+        <li><a href="servicios.html" class="nav-link active">Gestión de Servicios</a></li>
+        <li><a href="../ventas.html" class="nav-link">Ventas</a></li>
+      </ul>
+    </div>
+
+    <div class="sidebar-footer">
+      <span class="status-dot online"></span>
+      <span>Endpoint: /api/servicios</span>
+    </div>
+  </aside>
+
+  <!-- Contenido principal -->
+  <main class="main-content">
+
+    <header class="topbar">
+      <div>
+        <h2>Gestión de Servicios</h2>
+        <p>Registra, consulta, actualiza e inactiva los servicios de tu barbería.</p>
+      </div>
+
+      <a href="../index.html" class="btn-outline">← Volver al Panel</a>
+    </header>
+
+    <!-- Formulario -->
+    <section class="panel-card">
+      <div class="panel-header">
+        <div>
+          <h3>Formulario de Servicio</h3>
+          <p>Completa los datos para registrar o actualizar un servicio.</p>
+        </div>
+      </div>
+
+      <form id="formServicios" onsubmit="return false;">
+        <div class="search-row">
+          <div class="form-group">
+            <label for="id">ID del Servicio</label>
+            <input type="number" id="id" min="1" placeholder="Ej. 1">
+          </div>
+
+          <div class="search-action">
+            <button type="button" class="btn-secondary" onclick="obtenerServicio()">
+              Buscar por ID
+            </button>
+          </div>
+        </div>
+
+        <div class="form-grid">
+          <div class="form-group">
+            <label for="nombre">Nombre del Servicio</label>
+            <input type="text" id="nombre" placeholder="Ej. Corte clásico" required>
+          </div>
+
+          <div class="form-group">
+            <label for="descripcion">Descripción</label>
+            <input type="text" id="descripcion" placeholder="Ej. Corte tradicional con máquina" required>
+          </div>
+
+          <div class="form-group">
+            <label for="duracion">Duración (minutos)</label>
+            <input type="number" id="duracion" min="1" placeholder="Ej. 30" required>
+          </div>
+
+          <div class="form-group">
+            <label for="precio">Precio (COP)</label>
+            <input type="number" id="precio" min="1" step="any" placeholder="Ej. 25000" required>
+          </div>
+        </div>
+
+        <div id="mensajeEstado" class="feedback" role="status" aria-live="polite"></div>
+
+        <div class="actions-bar">
+          <div class="actions-left">
+            <button type="button" class="btn-primary" onclick="registrarServicio()">
+              Registrar
+            </button>
+
+            <button type="button" class="btn-success" onclick="actualizarServicio()">
+              Actualizar
+            </button>
+
+            <button type="button" class="btn-danger" onclick="cambiarEstadoServicio(false)">
+              Inactivar
+            </button>
+
+            <button type="button" class="btn-secondary" onclick="cambiarEstadoServicio(true)">
+              Reactivar
+            </button>
+          </div>
+
+          <div class="actions-right">
+            <button type="button" class="btn-secondary" onclick="obtenerListaServicios()">
+              Lista Completa
+            </button>
+
+            <button type="button" class="btn-ghost" onclick="limpiarFormulario()">
+              Limpiar
+            </button>
+          </div>
+        </div>
+      </form>
+    </section>
+
+    <!-- Catálogo de servicios -->
+    <section class="panel-card table-section">
+      <div class="panel-header">
+        <div>
+          <h3>Catálogo de Servicios</h3>
+          <p>Haz clic en una fila para cargar sus datos en el formulario.</p>
+        </div>
+      </div>
+
+      <div class="table-responsive">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Nombre</th>
+              <th>Descripción</th>
+              <th>Duración</th>
+              <th>Precio</th>
+              <th>Estado</th>
+            </tr>
+          </thead>
+
+          <tbody id="tablaServicios">
+            <tr>
+              <td colspan="6" class="empty-cell">
+                Presiona Lista Completa para consultar los servicios.
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Ruta corregida -->
+  <script src="servicios.js"></script>
+
+</body>
+</html>
