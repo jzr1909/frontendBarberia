@@ -1,4 +1,4 @@
-package com.barberia.barberia_api.model.DTO;
+package com.barberia.barberia_api.DTO;
 
 import com.barberia.barberia_api.model.EstadoReserva;
 

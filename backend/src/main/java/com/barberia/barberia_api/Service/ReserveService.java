@@ -16,11 +16,11 @@ import java.time.LocalTime;
 import java.util.List;
 
 @Service
-public class ReservaService {
+public class ReserveService {
 
     private final ReservaRepository repository;
 
-    public ReservaService(ReservaRepository repository) {
+    public ReserveService(ReservaRepository repository) {
         this.repository = repository;
     }
 
@@ -39,7 +39,7 @@ public class ReservaService {
 
     @Transactional
     public ReservaResponse crear(ReservaRequest req) {
-        validarDisponibilidad(req.barberoId(), req.fecha(), req.hora(), null);
+        validarDisposability(req.barberoId(), req.fecha(), req.hora(), null);
 
         Reserva reserva = new Reserva();
         reserva.setClienteId(req.clienteId());
@@ -56,7 +56,7 @@ public class ReservaService {
     public ReservaResponse actualizar(Long id, ReservaRequest req) {
         Reserva reserva = buscarPorId(id);
         validarModificable(reserva);
-        validarDisponibilidad(req.barberoId(), req.fecha(), req.hora(), id);
+        validarDisposability(req.barberoId(), req.fecha(), req.hora(), id);
 
         reserva.setClienteId(req.clienteId());
         reserva.setBarberoId(req.barberoId());
@@ -77,7 +77,7 @@ public class ReservaService {
 
         boolean cambiaHorario = !fecha.equals(reserva.getFecha()) || !hora.equals(reserva.getHora());
         if (cambiaHorario) {
-            validarDisponibilidad(reserva.getBarberoId(), fecha, hora, id);
+            validarDisposability(reserva.getBarberoId(), fecha, hora, id);
         }
 
         reserva.setFecha(fecha);
@@ -112,7 +112,7 @@ public class ReservaService {
         }
     }
 
-    private void validarDisponibilidad(Long barberoId, LocalDate fecha, LocalTime hora, Long idExcluir) {
+    private void validarDisposability(Long barberoId, LocalDate fecha, LocalTime hora, Long idExcluir) {
         boolean ocupado = (idExcluir == null)
                 ? repository.existsByBarberoIdAndFechaAndHoraAndEstadoNot(
                 barberoId, fecha, hora, EstadoReserva.CANCELADA)
@@ -120,7 +120,6 @@ public class ReservaService {
                 barberoId, fecha, hora, EstadoReserva.CANCELADA, idExcluir);
 
         if (ocupado) {
-            throw new com.barberia.barberia_api.model.Service.ConflictoException("El barbero ya tiene una reserva en esa fecha y hora");
-        }
+            throw new ConflictoException("El barbero ya tiene una reserva en esa fecha y hora");        }
     }
 }

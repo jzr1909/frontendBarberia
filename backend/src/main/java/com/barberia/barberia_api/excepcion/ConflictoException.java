@@ -1,4 +1,4 @@
-package com.barberia.barberia_api.model.Ecepcion;
+package com.barberia.barberia_api.excepcion;
 
 public class ConflictoException extends RuntimeException {
     public ConflictoException(String mensaje) {

@@ -1,4 +1,4 @@
-package com.barberia.barberia_api.model.DTO;
+package com.barberia.barberia_api.DTO;
 
 import jakarta.validation.constraints.FutureOrPresent;
 import jakarta.validation.constraints.NotBlank;

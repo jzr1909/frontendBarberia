@@ -1,10 +1,10 @@
-package com.barberia.barberia_api.model.Controller;
+package com.barberia.barberia_api.Controller;
 
-import com.barberia.barberia_api.model.DTO.ReservaPatchRequest;
-import com.barberia.barberia_api.model.DTO.ReservaRequest;
-import com.barberia.barberia_api.model.DTO.ReservaResponse;
+import com.barberia.barberia_api.DTO.ReservaPatchRequest;
+import com.barberia.barberia_api.DTO.ReservaRequest;
+import com.barberia.barberia_api.DTO.ReservaResponse;
 import com.barberia.barberia_api.model.EstadoReserva;
-import com.barberia.barberia_api.model.Service.ReservaService;
+import com.barberia.barberia_api.Service.ReserveService;
 import jakarta.validation.Valid;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
@@ -28,9 +28,9 @@ import java.util.List;
 @RequestMapping("/api/reservas")
 public class ReservaController {
 
-    private final ReservaService service;
+    private final ReserveService service;
 
-    public ReservaController(ReservaService service) {
+    public ReservaController(ReserveService service) {
         this.service = service;
     }
 

@@ -1,8 +1,7 @@
-package com.barberia.barberia_api.model.DTO;
+package com.barberia.barberia_api.DTO;
 
 import com.barberia.barberia_api.model.EstadoReserva;
-import com.barberia.barberia_api.model.Reserva;
-
+import com.barberia.barberia_api.model.Reserva;   // solo en ReservaResponse
 import java.time.LocalDate;
 import java.time.LocalTime;
 
