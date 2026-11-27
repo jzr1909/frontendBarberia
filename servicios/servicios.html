@@ -48,7 +48,7 @@
     <header class="topbar">
       <div>
         <h2>Gestión de Servicios</h2>
-        <p>Registra, consulta, actualiza e inactiva los servicios de tu barbería.</p>
+        <p>Registra, consulta, actualiza, inactiva o elimina los servicios de tu barbería.</p>
       </div>
 
       <a href="../index.html" class="btn-outline">← Volver al Panel</a>
@@ -117,6 +117,10 @@
 
             <button type="button" class="btn-secondary" onclick="cambiarEstadoServicio(true)">
               Reactivar
+            </button>
+
+            <button type="button" class="btn-delete" onclick="eliminarServicio()">
+              Eliminar
             </button>
           </div>
 

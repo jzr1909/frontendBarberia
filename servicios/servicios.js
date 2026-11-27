@@ -41,7 +41,7 @@ function obtenerDatosFormulario() {
     return {
         nombre,
         descripcion,
-        duracionMinutos: duracion, // Ajusta el nombre del atributo según tu entidad en Java/Backend
+        duracionMinutos: duracion,
         precio
     };
 }
@@ -169,7 +169,39 @@ async function cambiarEstadoServicio(activo) {
     }
 }
 
-// 5. Listar todos los servicios (GET)
+// 5. Eliminar servicio (DELETE /{id})
+async function eliminarServicio() {
+    const id = document.getElementById("id").value;
+
+    if (!id || Number(id) <= 0) {
+        mostrarMensaje("Primero busca o selecciona un servicio para eliminar.", "error");
+        return;
+    }
+
+    if (!confirm(`¿Seguro que deseas eliminar el servicio con ID ${id}? Esta acción no se puede deshacer.`)) {
+        return;
+    }
+
+    try {
+        const respuesta = await fetch(`${URL_SERVICIOS}/${id}`, {
+            method: "DELETE"
+        });
+
+        if (!respuesta.ok) {
+            throw new Error(await respuesta.text() || "Error al eliminar el servicio.");
+        }
+
+        mostrarMensaje("Servicio eliminado correctamente.", "success");
+        limpiarFormulario();
+        await obtenerListaServicios();
+
+    } catch (error) {
+        console.error(error);
+        mostrarMensaje(error.message, "error");
+    }
+}
+
+// 6. Listar todos los servicios (GET)
 async function obtenerListaServicios() {
     const tbody = document.getElementById("tablaServicios");
 
@@ -193,7 +225,7 @@ async function obtenerListaServicios() {
 
         servicios.forEach(servicio => {
             const fila = document.createElement("tr");
-            
+
             // Permite hacer clic en cualquier fila para rellenar el formulario
             fila.onclick = () => cargarServicioEnFormulario(servicio);
 
