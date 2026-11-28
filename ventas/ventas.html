@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BarberIA - Ventas</title>
+    <link rel="stylesheet" href="../styles.css">
+    <link rel="stylesheet" href="ventas.css">
+</head>
+<body>
+
+    <aside class="sidebar">
+        <div>
+            <div class="brand">
+                <div class="brand-icon">BP</div>
+                <div class="brand-text">
+                    <h1>BarberIA</h1>
+                    <span>Sistema de Gestión</span>
+                </div>
+            </div>
+
+            <p class="nav-label">Módulos</p>
+
+            <ul class="nav-list">
+                <li><a href="../index.html" class="nav-link">▦ Panel Principal</a></li>
+                <li><a href="../inicio.html" class="nav-link">⌂ Inicio</a></li>
+                <li><a href="../inventario/inventario.html" class="nav-link">◇ Inventario</a></li>
+                <li><a href="../barberos.html" class="nav-link">♙ Gestión de Barberos</a></li>
+                <li><a href="../agenda.html" class="nav-link">▣ Agenda y Reservas</a></li>
+                <li><a href="../servicios.html" class="nav-link">✂ Gestión de Servicios</a></li>
+                <li><a href="ventas.html" class="nav-link active">$ Ventas</a></li>
+            </ul>
+        </div>
+
+        <div class="sidebar-footer">
+            <span id="apiStatusDot" class="status-dot"></span>
+            <span id="apiStatusText">Verificando API...</span>
+        </div>
+    </aside>
+
+    <main class="main-content">
+
+        <header class="topbar">
+            <div>
+                <h2>Gestión de Ventas</h2>
+                <p>Registra y administra las ventas de productos y servicios.</p>
+            </div>
+            <div class="badge-api">
+                Backend: <strong>localhost:8080</strong>
+            </div>
+        </header>
+
+        <section class="stats-row resumen-ventas">
+            <div class="stat-card">
+                <span>Ventas registradas</span>
+                <strong id="totalRegistradas">0</strong>
+            </div>
+
+            <div class="stat-card">
+                <span>Ventas anuladas</span>
+                <strong id="totalAnuladas">0</strong>
+            </div>
+
+            <div class="stat-card">
+                <span>Total de ventas activas</span>
+                <strong id="totalIngresos">$0</strong>
+            </div>
+        </section>
+
+        <section class="panel-ventas">
+            <h3>Registrar nueva venta</h3>
+
+            <div class="form-grid">
+
+                <div class="campo">
+                    <label for="tipoItem">Tipo de artículo</label>
+                    <select id="tipoItem">
+                        <option value="PRODUCTO">Producto</option>
+                        <option value="SERVICIO">Servicio</option>
+                    </select>
+                </div>
+
+                <div class="campo">
+                    <label for="itemId">Producto o servicio</label>
+                    <select id="itemId"></select>
+                </div>
+
+                <div class="campo">
+                    <label for="cantidad">Cantidad</label>
+                    <input type="number" id="cantidad" min="1" value="1">
+                </div>
+
+                <div class="campo">
+                    <label for="metodoPago">Método de pago</label>
+                    <select id="metodoPago">
+                        <option value="">Seleccionar</option>
+                        <option value="EFECTIVO">Efectivo</option>
+                        <option value="TRANSFERENCIA_BANCARIA">
+                            Transferencia bancaria
+                        </option>
+                    </select>
+                </div>
+
+                <div class="campo">
+                    <label for="clienteId">ID del cliente (opcional)</label>
+                    <input type="number" id="clienteId" min="1"
+                           placeholder="Sin cliente">
+                </div>
+
+                <div class="campo">
+                    <button class="btn-secundario" id="btnAgregar">
+                        + Agregar artículo
+                    </button>
+                </div>
+
+            </div>
+
+            <div class="tabla-contenedor">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Artículo</th>
+                            <th>Cantidad</th>
+                            <th>Precio</th>
+                            <th>Subtotal</th>
+                            <th>Acción</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tablaCarrito"></tbody>
+                </table>
+            </div>
+
+            <div class="venta-footer">
+                <h3>Total: <span id="totalVenta">$0</span></h3>
+                <button class="btn-principal" id="btnRegistrar">
+                    Registrar venta
+                </button>
+            </div>
+
+            <p id="mensaje" role="status"></p>
+        </section>
+
+        <section class="panel-ventas">
+
+            <div class="encabezado-tabla">
+                <h3>Historial de ventas</h3>
+
+                <select id="filtroEstado">
+                    <option value="">Todos los estados</option>
+                    <option value="REGISTRADA">Registradas</option>
+                    <option value="ANULADA">Anuladas</option>
+                </select>
+            </div>
+
+            <div class="tabla-contenedor">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Fecha</th>
+                            <th>Cliente</th>
+                            <th>Método de pago</th>
+                            <th>Total</th>
+                            <th>Estado</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tablaVentas"></tbody>
+                </table>
+            </div>
+
+        </section>
+
+    </main>
+
+    <script src="ventas.js"></script>
+</body>
+</html>
